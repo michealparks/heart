@@ -29,9 +29,7 @@ y = 0;
 
 ctx.strokeWidth = 4;
 
-function tick (stamp) {
-
-  //x = ((stamp - start) / 1400);
+function side1 (stamp) {
 
   x+= 0.01
 
@@ -47,6 +45,18 @@ function tick (stamp) {
   ctx.closePath();
   ctx.stroke();
 
+  if (x < 1) {
+    window.requestAnimationFrame(side1);
+  } else {
+    x = -1
+    window.requestAnimationFrame(side2);
+  }
+}
+
+function side2 (stamp) {
+
+  x+= 0.02
+
   if (x <= 0) {
     y = Math.abs(x) + Math.sqrt(1-(x*x))
   } else {
@@ -59,13 +69,13 @@ function tick (stamp) {
   ctx.closePath();
   ctx.stroke();
 
-  if (x < 1) window.requestAnimationFrame(tick);
+  if (x < 1) window.requestAnimationFrame(side2);
 }
 
 function begin (stamp) {
   start = stamp;
   ctx.moveTo(150, 150);
-  window.requestAnimationFrame(tick);
+  window.requestAnimationFrame(side1);
 }
 
 window.requestAnimationFrame(begin);
